@@ -2,12 +2,12 @@ use chrono::{DateTime, Local};
 use proconio::input;
 
 fn main() {
-    let local_datetime_before: DateTime<Local> = Local::now();
-
     input! {
         n: i64,
         a: i64
     }
+
+    let local_datetime_before: DateTime<Local> = Local::now();
 
     let mut i = 1;
     let mut j = 1;
@@ -25,7 +25,7 @@ fn main() {
 
     println!("{}", c);
     let local_datetime_after: DateTime<Local> = Local::now();
-    let code_duration = local_datetime_after - local_datetime_before;
 
+    let code_duration = local_datetime_after - local_datetime_before;
     println!("time: {}", code_duration.num_milliseconds());
 }
