@@ -2,9 +2,15 @@ use proconio::input;
 
 fn main() {
     input! {
-        a: i64,
-        b: i64,
-        c: i64
+        mut n: i64
     }
-    println!("{}", a + b + c);
+    let mut result = 0;
+    while n != 0 {
+        input! {
+            a: i64
+        }
+        result += a;
+        n -= 1;
+    }
+    println!("{}", result);
 }
