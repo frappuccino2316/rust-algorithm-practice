@@ -2,15 +2,10 @@ use proconio::input;
 
 fn main() {
     input! {
-        mut n: i64
+        a1: i32,
+        a2: i32,
+        a3: i32,
     }
-    let mut result = 0;
-    while n != 0 {
-        input! {
-            a: i64
-        }
-        result += a;
-        n -= 1;
-    }
-    println!("{}", result);
+
+    println!("{}", a1 * a2 * a3);
 }
