@@ -1,7 +1,18 @@
-// use proconio::input;
+use proconio::input;
 
 fn main() {
-    let a = 20.21;
-    println!("{}", a as i32);
-    println!("{}", a as i32 + 1);
+    input! {
+        n: i64,
+        x: i64,
+        y: i64,
+    }
+
+    let mut i = 1;
+
+    while i < n {
+        if i % x == 0 || i % y == 0 {
+            println!("{}", i);
+        }
+        i += 1;
+    }
 }
