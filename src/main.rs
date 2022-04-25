@@ -2,7 +2,9 @@ use proconio::input;
 
 fn main() {
     input! {
-        a: String
+        a: i64,
+        b: i64,
+        c: i64
     }
-    println!("{}", a);
+    println!("{}", a + b + c);
 }
