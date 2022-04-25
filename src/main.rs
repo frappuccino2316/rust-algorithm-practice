@@ -2,10 +2,18 @@ use proconio::input;
 
 fn main() {
     input! {
-        a1: i32,
-        a2: i32,
-        a3: i32,
+        mut n: i64,
     }
 
-    println!("{}", a1 * a2 * a3);
+    let mut t = 0;
+
+    while n != 0 {
+        input! {
+            i: i64
+        }
+        t += i;
+        n -= 1;
+    }
+
+    println!("{}", t % 100);
 }
