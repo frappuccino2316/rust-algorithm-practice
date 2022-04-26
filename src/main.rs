@@ -1,31 +1,22 @@
-use chrono::{DateTime, Local};
-use proconio::input;
+// use chrono::{DateTime, Local};
+// use proconio::input;
 
 fn main() {
-    input! {
-        n: i64,
-        a: i64
-    }
-
-    let local_datetime_before: DateTime<Local> = Local::now();
-
-    let mut i = 1;
-    let mut j = 1;
-    let mut c = 0;
-
-    while i <= n {
-        while j <= n + 1 {
-            if i + j <= a {
-                c += 1;
+    let v = vec!["A", "B", "C", "D"];
+    // 1 << d := pow(2, d)
+    for i in 0..1 << v.len() {
+        println!("===");
+        // -- (1)
+        for (j, el) in v.iter().enumerate() {
+            // iのj番目ビットが立っているか -> jがiに含まれるか
+            println!("i: {}", i);
+            println!("j: {}", j);
+            if (1 << j) & i == 0 {
+                // -- (2)
+                // 又は if i >> j & 1 {
+                print!("{}", el);
             }
-            j += 1;
         }
-        i += 1;
+        println!();
     }
-
-    println!("{}", c);
-    let local_datetime_after: DateTime<Local> = Local::now();
-
-    let code_duration = local_datetime_after - local_datetime_before;
-    println!("time: {}", code_duration.num_milliseconds());
 }
