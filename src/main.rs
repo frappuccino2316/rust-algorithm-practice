@@ -1,14 +1,22 @@
-// use chrono::{DateTime, Local};
-// use proconio::input;
+use chrono::{DateTime, Local};
+use proconio::input;
 
 fn main() {
-    let v = vec!["A", "B", "C", "D"];
-    for i in 0..1 << v.len() {
-        for (j, el) in v.iter().enumerate() {
-            if (1 << j) & i != 0 {
-                print!("{}", el);
-            }
-        }
-        println!();
+    input! {
+        mut n: i64,
     }
+
+    let local_datetime_before: DateTime<Local> = Local::now();
+
+    let mut r = 1;
+    for i in 2..n + 1 {
+        r *= i;
+    }
+
+    println!("{}", r);
+
+    let local_datetime_after: DateTime<Local> = Local::now();
+
+    let code_duration = local_datetime_after - local_datetime_before;
+    println!("time: {}", code_duration.num_milliseconds());
 }
