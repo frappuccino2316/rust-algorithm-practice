@@ -8,12 +8,25 @@ fn main() {
 
     let local_datetime_before: DateTime<Local> = Local::now();
 
-    let mut r = 1;
-    for i in 2..n + 1 {
-        r *= i;
-    }
+    let mut count = 0;
 
-    println!("{}", r);
+    if n < 3 {
+        count += 1;
+        println!("2");
+    } else {
+        for i in 3..n + 1 {
+            for j in 2..i {
+                if i % j == 0 {
+                    break;
+                }
+                if j == i - 1 {
+                    count += 1;
+                    println!("{}", i);
+                }
+            }
+        }
+    }
+    println!("count: {}", count);
 
     let local_datetime_after: DateTime<Local> = Local::now();
 
