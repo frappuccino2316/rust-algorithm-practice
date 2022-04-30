@@ -1,13 +1,13 @@
 use proconio::input;
 
-// Nが３個以上の場合の最大公約数を出す
 fn main() {
     input! {
         mut n: i64,
     }
 
     let mut number_list = Vec::new();
-    let mut result = 0;
+    let mut gcd_value = 0;
+    let mut lcm_value = 0;
 
     for _ in 0..n {
         input! {
@@ -18,27 +18,29 @@ fn main() {
 
     for j in 1..n {
         if j == 1 {
-            result = gcd(number_list[0], number_list[1]);
+            gcd_value = gcd(number_list[0], number_list[1]);
+            lcm_value = lcm(number_list[0], number_list[1], gcd_value);
         } else {
-            result = gcd(result, number_list[j as usize]);
+            gcd_value = gcd(gcd_value, number_list[j as usize]);
+            lcm_value = lcm(
+                lcm_value,
+                number_list[j as usize],
+                gcd(lcm_value, number_list[j as usize]),
+            );
         }
     }
 
-    println!("{}", result);
+    println!("gcd: {}, lcm: {}", gcd_value, lcm_value);
 }
 
-fn gcd(mut a: i64, mut b: i64) -> i64 {
-    while a >= 1 && b >= 1 {
-        if a > b {
-            a %= b;
-        } else {
-            b %= a;
-        }
-    }
-
-    if a >= 1 {
-        a
-    } else {
+fn gcd(a: i64, b: i64) -> i64 {
+    if a % b == 0 {
         b
+    } else {
+        gcd(b, a % b)
     }
+}
+
+fn lcm(a: i64, b: i64, gcd_value: i64) -> i64 {
+    a * b / gcd_value
 }
