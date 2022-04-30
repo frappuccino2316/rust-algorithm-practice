@@ -5,10 +5,9 @@ fn main() {
         n: i64,
     }
 
-    let mut one_hundred_count = 0;
-    let mut two_hundred_count = 0;
-    let mut three_hundred_count = 0;
-    let mut four_hundred_count = 0;
+    let mut red_count = 0;
+    let mut blue_count = 0;
+    let mut yellow_count = 0;
 
     for _ in 0..n {
         input! {
@@ -16,16 +15,19 @@ fn main() {
         }
 
         match a {
-            100 => one_hundred_count += 1,
-            200 => two_hundred_count += 1,
-            300 => three_hundred_count += 1,
-            400 => four_hundred_count += 1,
+            1 => red_count += 1,
+            2 => blue_count += 1,
+            3 => yellow_count += 1,
             _ => println!("no matched"),
         }
     }
 
+    let result = red_count * (red_count - 1) / 2
+        + blue_count * (blue_count - 1) / 2
+        + yellow_count * (yellow_count - 1) / 2;
+
     println!(
-        "500 pattern is {}",
-        one_hundred_count * four_hundred_count + two_hundred_count * three_hundred_count
+        "if pick up two card, same color pattern is {} pattern",
+        result
     );
 }
