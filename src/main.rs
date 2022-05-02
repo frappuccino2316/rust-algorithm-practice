@@ -6,34 +6,40 @@ fn main() {
         n: i64,
     }
 
-    let mut v = Vec::new();
+    let mut b = Vec::new();
+    let mut r = Vec::new();
 
     for _ in 0..n {
         input! {
             a: i64,
         }
-        v.push(a);
+        b.push(a);
+    }
+
+    for _ in 0..n {
+        input! {
+            a: i64,
+        }
+        r.push(a);
     }
 
     let local_datetime_before: DateTime<Local> = Local::now();
 
-    let mut i = 0;
-    let mut count = 0;
-
-    while i < v.len() {
-        let mut j = i + 1;
-
-        while j < v.len() {
-            if v[i] + v[j] == 100000 {
-                count += 1;
-            }
-            j += 1;
-        }
-
-        i += 1;
+    let n = n as f64;
+    let mut b_total = 0;
+    for i in b {
+        b_total += i;
     }
 
-    println!("{}", count);
+    let mut r_total = 0;
+    for i in r {
+        r_total += i;
+    }
+
+    let b_total = b_total as f64;
+    let r_total = r_total as f64;
+
+    println!("{}", (b_total + r_total) / n);
 
     let local_datetime_after: DateTime<Local> = Local::now();
 
