@@ -1,23 +1,56 @@
 use proconio::input;
-use rand::Rng;
 
 fn main() {
-    // 試行回数
     input! {
         n: i64,
     }
 
-    let n_f64 = n as f64;
-    let mut m = 0.0;
-    let mut rng = rand::thread_rng();
+    let mut a = Vec::new();
 
     for _ in 0..n {
-        let x = rng.gen_range(0.0..=1.0);
-        let y = rng.gen_range(0.0..=1.0);
-
-        if x * x + y * y <= 1.0 {
-            m += 1.0;
+        input! {
+            element: i64,
         }
+        a.push(element);
     }
-    println!("π: {}", 4.0 * m / n_f64);
+
+    println!("original: {:?}", a);
+
+    let r = a.len();
+
+    let mut c = vec![0; r];
+
+    merge_sort(&mut a, &mut c, 0, r);
+
+    println!("answer: {:?}", a);
+}
+
+fn merge_sort(a: &mut Vec<i64>, c: &mut Vec<i64>, l: usize, r: usize) {
+    if r - l != 1 {
+        let m = (l + r) / 2;
+        merge_sort(a, c, l, m);
+        merge_sort(a, c, m, r);
+
+        let mut first_count = l;
+        let mut second_count = m;
+        let mut count = 0;
+        while first_count != m || second_count != r {
+            if first_count == m {
+                c[count] = a[second_count];
+                second_count += 1;
+            } else if second_count == r || a[first_count] < a[second_count] {
+                c[count] = a[first_count];
+                first_count += 1;
+            } else {
+                c[count] = a[second_count];
+                second_count += 1;
+            }
+            count += 1;
+        }
+
+        a[l..(count + l)].copy_from_slice(&c[..count]);
+        // for (i, e) in c.iter().enumerate() {
+        //     a[i] = *e;
+        // }
+    }
 }
