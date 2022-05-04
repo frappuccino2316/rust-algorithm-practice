@@ -1,56 +1,37 @@
 use proconio::input;
+use std::cmp::min;
 
 fn main() {
     input! {
         n: i64,
     }
 
-    let mut a = Vec::new();
+    let n_usize = n as usize;
+    let mut scaffold = vec![0_i64; n_usize + 1];
 
-    for _ in 0..n {
+    for i in scaffold.iter_mut().skip(1).take(n_usize) {
         input! {
-            element: i64,
+            h: i64,
         }
-        a.push(element);
+        *i = h;
     }
 
-    println!("original: {:?}", a);
+    let mut result = vec![0; n_usize + 1];
 
-    let r = a.len();
-
-    let mut c = vec![0; r];
-
-    merge_sort(&mut a, &mut c, 0, r);
-
-    println!("answer: {:?}", a);
-}
-
-fn merge_sort(a: &mut Vec<i64>, c: &mut Vec<i64>, l: usize, r: usize) {
-    if r - l != 1 {
-        let m = (l + r) / 2;
-        merge_sort(a, c, l, m);
-        merge_sort(a, c, m, r);
-
-        let mut first_count = l;
-        let mut second_count = m;
-        let mut count = 0;
-        while first_count != m || second_count != r {
-            if first_count == m {
-                c[count] = a[second_count];
-                second_count += 1;
-            } else if second_count == r || a[first_count] < a[second_count] {
-                c[count] = a[first_count];
-                first_count += 1;
-            } else {
-                c[count] = a[second_count];
-                second_count += 1;
-            }
-            count += 1;
+    for i in 1..n_usize + 1 {
+        if i == 1 {
+            result[i] = 0;
         }
-
-        a[l..(count + l)].copy_from_slice(&c[..count]);
-        // for (i, e) in c.iter().enumerate() {
-        //     a[i] = *e;
-        // }
+        if i == 2 {
+            let difference = scaffold[i] - scaffold[i - 1];
+            result[i] = difference.abs();
+        }
+        if i >= 3 {
+            let step_from_one_previous = result[i - 1] + (scaffold[i] - scaffold[i - 1]).abs();
+            let step_from_two_previous = result[i - 2] + (scaffold[i] - scaffold[i - 2]).abs();
+            result[i] = min(step_from_one_previous, step_from_two_previous);
+        }
     }
+
+    println!("min step: {}", result[n_usize]);
 }
