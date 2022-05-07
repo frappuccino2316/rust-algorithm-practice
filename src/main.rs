@@ -2,32 +2,26 @@ use proconio::input;
 
 fn main() {
     input! {
-        n: i64,
+        x1: f64,
+        y1: f64,
+        r1: f64,
+        x2: f64,
+        y2: f64,
+        r2: f64,
     }
 
-    let mut point_list = Vec::new();
+    let center_distance = ((x2 - x1).powi(2) + (y2 - y1).powi(2)).sqrt();
 
-    for _ in 0..n {
-        input! {
-            x: f64,
-            y: f64,
-        }
-        point_list.push((x, y));
+    if center_distance + r1 < r2 || center_distance + r2 < r1 {
+        println!("1");
+    } else if center_distance + r1 == r2 || center_distance + r2 == r1 {
+        println!("2");
+    } else if center_distance < r1 + r2 && (center_distance + r1 > r2 || center_distance + r2 > r1)
+    {
+        println!("3");
+    } else if center_distance == r1 + r2 {
+        println!("4");
+    } else if center_distance > r1 + r2 {
+        println!("5");
     }
-
-    let mut nearest_distance = 2_f64.powf(60.0);
-
-    for i in 0..(n as usize) - 1 {
-        for j in (i as usize) + 1..(n as usize) {
-            let distance = ((point_list[j].0.powf(2.0) - point_list[i].0.powf(2.0))
-                + (point_list[j].1.powf(2.0) - point_list[i].1.powf(2.0)))
-            .sqrt();
-
-            if nearest_distance > distance {
-                nearest_distance = distance;
-            }
-        }
-    }
-
-    println!("nearest points of distance is {}.", nearest_distance);
 }
