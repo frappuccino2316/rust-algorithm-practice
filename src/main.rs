@@ -2,26 +2,32 @@ use proconio::input;
 
 fn main() {
     input! {
-        ax: f64,
-        ay: f64,
-        bx: f64,
-        by: f64,
-        cx: f64,
-        cy: f64,
+        n: i64,
     }
 
-    let answer: f64;
+    let mut point_list = Vec::new();
 
-    if bx * ax + by * ay < 0.0 {
-        answer = ((bx - ax).powf(2.0) + (by - ay).powf(2.0)).sqrt();
-    } else if cx * ax + cy * ay < 0.0 {
-        answer = ((cx - ax).powf(2.0) + (by - ay).powf(2.0)).sqrt();
-    } else {
-        let ab = (bx - ax, by - ay);
-        let ac = (cx - ax, cy - ay);
-        answer =
-            (ab.0 * ac.1 - ab.1 * ac.0).abs() / ((cx - bx).powf(2.0) + (cy - by).powf(2.0)).sqrt();
+    for _ in 0..n {
+        input! {
+            x: f64,
+            y: f64,
+        }
+        point_list.push((x, y));
     }
 
-    println!("answer is {}", answer);
+    let mut nearest_distance = 2_f64.powf(60.0);
+
+    for i in 0..(n as usize) - 1 {
+        for j in (i as usize) + 1..(n as usize) {
+            let distance = ((point_list[j].0.powf(2.0) - point_list[i].0.powf(2.0))
+                + (point_list[j].1.powf(2.0) - point_list[i].1.powf(2.0)))
+            .sqrt();
+
+            if nearest_distance > distance {
+                nearest_distance = distance;
+            }
+        }
+    }
+
+    println!("nearest points of distance is {}.", nearest_distance);
 }
