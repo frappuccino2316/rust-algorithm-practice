@@ -39,7 +39,6 @@ fn main() {
         }
     }
 
-    println!("{:?}", dp);
     let result = dp[n_usize][s_usize];
     println!("card can add s?: {}.", result);
 }
