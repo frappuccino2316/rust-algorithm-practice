@@ -1,44 +1,39 @@
+use std::vec;
+
 use proconio::input;
 
 fn main() {
     input! {
         n: i64,
-        s: i64,
     }
 
     let n_usize = n as usize;
-    let s_usize = s as usize;
 
-    let mut card_list = Vec::new();
+    let mut study_point = Vec::new();
+    for _ in 0..n {
+        input! {
+            p: i64,
+        }
+        study_point.push(p);
+    }
 
-    for i in 0..n + 1 {
+    let mut max_point = vec![0; study_point.len()];
+
+    for i in 0..n_usize {
         if i == 0 {
-            card_list.push(0);
+            max_point[i] = study_point[i];
+        } else if i == 1 {
+            if max_point[i - 1] >= study_point[i] {
+                max_point[i] = max_point[i - 1];
+            } else {
+                max_point[i] = study_point[i];
+            }
+        } else if max_point[i - 1] >= study_point[i] + max_point[i - 2] {
+            max_point[i] = max_point[i - 1];
         } else {
-            input! {
-                a: i64,
-            }
-            card_list.push(a);
+            max_point[i] = study_point[i] + max_point[i - 2];
         }
     }
 
-    let mut dp = Vec::new();
-    for _ in 0..n + 1 {
-        dp.push(vec![false; s_usize + 1]);
-    }
-
-    dp[0][0] = true;
-
-    for i in 1..n_usize + 1 {
-        for j in 0..s_usize + 1 {
-            if (j as i64) < card_list[i] {
-                dp[i][j] = dp[i - 1][j];
-            } else if (j as i64) >= card_list[i] {
-                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - (card_list[i] as usize)];
-            }
-        }
-    }
-
-    let result = dp[n_usize][s_usize];
-    println!("card can add s?: {}.", result);
+    println!("max is {}.", max_point[n_usize - 1]);
 }
