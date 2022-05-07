@@ -1,3 +1,7 @@
+// N日間勉強する
+// 勉強するとA1だけ学力 (study_point)が上がる
+// ただし2日連続で勉強はできない
+
 use std::vec;
 
 use proconio::input;
