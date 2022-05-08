@@ -1,28 +1,28 @@
 use proconio::input;
-use std::f64::consts::PI;
 
 fn main() {
     input! {
-        // a: 時針の長さ、b: 分針の長さ、h: 時刻の時、m: 時刻の分
-        a: f64,
-        b: f64,
-        h: f64,
-        m: f64,
+        x1: i64,
+        y1: i64,
+        x2: i64,
+        y2: i64,
+        x3: i64,
+        y3: i64,
+        x4: i64,
+        y4: i64,
     }
 
-    let h_radian = (2.0 * PI / 12.0) * h + ((2.0 * PI / 12.0 / 60.0) * m);
-    let m_radian = (2.0 * PI / 60.0) * m;
-    let target_radian = if (h_radian - m_radian).abs() < PI {
-        (h_radian - m_radian).abs()
+    let c = judge(x1, y1, x2, y2, x3, y3);
+    let d = judge(x1, y1, x2, y2, x4, y4);
+
+    if c * d <= 0 {
+        println!("交差しています");
     } else {
-        2.0 * PI - (h_radian - m_radian).abs()
-    };
+        println!("交差していません")
+    }
+}
 
-    println!("h_radian: {}", h_radian / PI);
-    println!("m_radian: {}", m_radian / PI);
-    println!("target_radian: {}", target_radian / PI);
-
-    let result = (a.powi(2) + b.powi(2) - (2.0 * a * b * target_radian.cos())).sqrt();
-
-    println!("result: {}cm.", result);
+fn judge(x1: i64, y1: i64, x2: i64, y2: i64, x: i64, y: i64) -> i64 {
+    // y-y1=((y1-y2)/(x1-x2))(x-x1) -> (y-y1) * (x1-x2) - (y1-y2) * (x-x1)の正負をチェックする
+    (y - y1) * (x1 - x2) - (y1 - y2) * (x - x1)
 }
