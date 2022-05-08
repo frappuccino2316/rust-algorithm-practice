@@ -1,27 +1,28 @@
 use proconio::input;
+use std::f64::consts::PI;
 
 fn main() {
     input! {
-        x1: f64,
-        y1: f64,
-        r1: f64,
-        x2: f64,
-        y2: f64,
-        r2: f64,
+        // a: 時針の長さ、b: 分針の長さ、h: 時刻の時、m: 時刻の分
+        a: f64,
+        b: f64,
+        h: f64,
+        m: f64,
     }
 
-    let center_distance = ((x2 - x1).powi(2) + (y2 - y1).powi(2)).sqrt();
+    let h_radian = (2.0 * PI / 12.0) * h + ((2.0 * PI / 12.0 / 60.0) * m);
+    let m_radian = (2.0 * PI / 60.0) * m;
+    let target_radian = if (h_radian - m_radian).abs() < PI {
+        (h_radian - m_radian).abs()
+    } else {
+        2.0 * PI - (h_radian - m_radian).abs()
+    };
 
-    if center_distance + r1 < r2 || center_distance + r2 < r1 {
-        println!("1");
-    } else if center_distance + r1 == r2 || center_distance + r2 == r1 {
-        println!("2");
-    } else if center_distance < r1 + r2 && (center_distance + r1 > r2 || center_distance + r2 > r1)
-    {
-        println!("3");
-    } else if center_distance == r1 + r2 {
-        println!("4");
-    } else if center_distance > r1 + r2 {
-        println!("5");
-    }
+    println!("h_radian: {}", h_radian / PI);
+    println!("m_radian: {}", m_radian / PI);
+    println!("target_radian: {}", target_radian / PI);
+
+    let result = (a.powi(2) + b.powi(2) - (2.0 * a * b * target_radian.cos())).sqrt();
+
+    println!("result: {}cm.", result);
 }
