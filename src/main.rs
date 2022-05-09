@@ -11,11 +11,15 @@ fn main() {
     let mut b: Vec<usize> = Vec::new();
     let mut total: i64 = 0;
 
-    for _ in 0..(n - 1) as usize {
-        input! {
-            ai: i64,
+    for i in 0..n as usize {
+        if i == 0 {
+            a.push(0);
+        } else {
+            input! {
+                ai: i64,
+            }
+            a.push(ai);
         }
-        a.push(ai);
     }
 
     for _ in 0..(m) as usize {
@@ -60,7 +64,7 @@ fn total_sum(a: Vec<i64>) -> Vec<i64> {
         if i == 0 {
             t.push(a[i]);
         } else {
-            t.push(a[i - 1] + a[i]);
+            t.push(t[i - 1] + a[i]);
         }
     }
     t
