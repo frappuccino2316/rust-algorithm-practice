@@ -1,3 +1,4 @@
+use chrono::{DateTime, Local};
 use proconio::input;
 
 fn main() {
@@ -24,6 +25,8 @@ fn main() {
         b.push(bi);
     }
 
+    let local_datetime_before: DateTime<Local> = Local::now();
+
     for i in 0..b.len() {
         if i != 0 {
             let start = if b[i - 1] < b[i] {
@@ -42,6 +45,11 @@ fn main() {
     }
 
     println!("total move distance is {}km.", total);
+
+    let local_datetime_after: DateTime<Local> = Local::now();
+
+    let code_duration = local_datetime_after - local_datetime_before;
+    println!("time: {}", code_duration.num_milliseconds());
 }
 
 fn sum(a: Vec<i64>) -> i64 {
