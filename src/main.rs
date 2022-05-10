@@ -2,32 +2,45 @@ use proconio::input;
 
 fn main() {
     input! {
+        t: i64,
         n: i64,
     }
 
-    let mut point_list = Vec::new();
+    let mut l = Vec::new();
+    let mut r = Vec::new();
+    let mut a = Vec::new();
+    let mut b = Vec::new();
 
-    for _ in 0..n {
-        input! {
-            x: f64,
-            y: f64,
-        }
-        point_list.push((x, y));
-    }
-
-    let mut nearest_distance = 2_f64.powf(60.0);
-
-    for i in 0..(n as usize) - 1 {
-        for j in (i as usize) + 1..(n as usize) {
-            let distance = ((point_list[j].0 - point_list[i].0).powi(2)
-                + (point_list[j].1 - point_list[i].1).powi(2))
-            .sqrt();
-
-            if nearest_distance > distance {
-                nearest_distance = distance;
+    for i in 0..n + 1 {
+        if i == 0 {
+            l.push(0_i64);
+            r.push(0_i64);
+        } else {
+            input! {
+                li: i64,
+                ri: i64,
             }
+            l.push(li);
+            r.push(ri);
         }
     }
 
-    println!("{}", nearest_distance);
+    for _ in 0..t + 1 {
+        a.push(0_i64);
+        b.push(0_i64);
+    }
+
+    for i in 1..(n as usize) + 1 {
+        b[l[i] as usize] += 1;
+        b[(r[i] as usize)] -= 1;
+    }
+
+    a[0] = b[0];
+    for i in 1..(t as usize) + 1 {
+        a[i] = a[i - 1] + b[i];
+    }
+
+    for (i, _) in a.iter().enumerate().take(t as usize) {
+        println!("{}", a[i]);
+    }
 }
