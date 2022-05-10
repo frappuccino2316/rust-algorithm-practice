@@ -1,34 +1,33 @@
-use chrono::{DateTime, Local};
-// use proconio::input;
+use proconio::input;
 
 fn main() {
-    let local_datetime_before: DateTime<Local> = Local::now();
-
-    let r = 1000.0_f64;
-    // 10^0.3 = 10√1000になる
-    let mut a = 1000_f64;
-
-    for i in 0..75 {
-        // 点 (a, f(a))の座標
-        let x = a;
-        let y = a * a * a * a * a * a * a * a * a * a;
-
-        // 上記座標の接戦を出す y = session_a * x + session_b
-        let session_a = 9.0 * x * x * x * x * x * x * x * x * x;
-        let session_b = y - session_a * x;
-
-        let next_a = (r - session_b) / session_a;
-
-        println!("Step{}: a={} -> {}.", i, a, next_a);
-
-        a = next_a;
+    input! {
+        n: i64,
     }
 
-    let answer = 10.0_f64.powf(0.3);
-    println!("answer: {}", answer);
+    let mut point_list = Vec::new();
 
-    let local_datetime_after: DateTime<Local> = Local::now();
+    for _ in 0..n {
+        input! {
+            x: f64,
+            y: f64,
+        }
+        point_list.push((x, y));
+    }
 
-    let code_duration = local_datetime_after - local_datetime_before;
-    println!("time: {}", code_duration.num_milliseconds());
+    let mut nearest_distance = 2_f64.powf(60.0);
+
+    for i in 0..(n as usize) - 1 {
+        for j in (i as usize) + 1..(n as usize) {
+            let distance = ((point_list[j].0 - point_list[i].0).powi(2)
+                + (point_list[j].1 - point_list[i].1).powi(2))
+            .sqrt();
+
+            if nearest_distance > distance {
+                nearest_distance = distance;
+            }
+        }
+    }
+
+    println!("{}", nearest_distance);
 }
