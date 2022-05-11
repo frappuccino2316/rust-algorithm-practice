@@ -2,33 +2,25 @@ use proconio::input;
 
 fn main() {
     input! {
-        n: i64,
+        n: usize,
     }
 
-    let mut prime = Vec::new();
-    for i in 0..n + 1 {
-        if i < 2 {
-            prime.push(false)
-        } else {
-            prime.push(true);
+    let mut v = vec![0; n + 1];
+    let mut answer = 0;
+
+    for i in 1..n + 1 {
+        let mut j = i;
+        while j <= n {
+            v[j] += 1;
+            j += i;
         }
     }
 
-    let mut j = 2_usize;
-    while j * j < n.try_into().unwrap() {
-        if prime[j] {
-            let mut x = j * 2;
-            while x <= n.try_into().unwrap() {
-                prime[x] = false;
-                x += j;
-            }
+    for (k, value) in v.iter().enumerate() {
+        if k != 0 {
+            answer += k * *value;
         }
-        j += 1;
     }
 
-    for (k, p) in prime.iter().enumerate() {
-        if *p {
-            println!("{}", k);
-        }
-    }
+    println!("{}", answer);
 }
