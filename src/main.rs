@@ -3,24 +3,32 @@ use proconio::input;
 fn main() {
     input! {
         n: usize,
+        m: usize,
     }
 
-    let mut v = vec![0; n + 1];
-    let mut answer = 0;
+    let mut g = vec![vec![]; n + 1];
+    let mut result = 0;
 
-    for i in 1..n + 1 {
-        let mut j = i;
-        while j <= n {
-            v[j] += 1;
-            j += i;
+    for _ in 1..=m {
+        input! {
+            ai: usize,
+            bi: usize,
+        }
+        g[ai].push(bi);
+        g[bi].push(ai);
+    }
+
+    for (i, _) in g.iter().enumerate().take(n + 1).skip(1) {
+        let mut tmp_count = 0;
+        for j in &g[i] {
+            if *j < i {
+                tmp_count += 1;
+            }
+        }
+        if tmp_count == 1 {
+            result += 1;
         }
     }
 
-    for (k, value) in v.iter().enumerate() {
-        if k != 0 {
-            answer += k * *value;
-        }
-    }
-
-    println!("{}", answer);
+    println!("{}", result);
 }
