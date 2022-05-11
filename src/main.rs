@@ -14,18 +14,18 @@ fn main() {
     let mut board: Vec<Vec<char>> = vec![vec![]; r];
     let mut g: Vec<Vec<usize>> = vec![vec![]; (r - 2) * (c - 2) + 1];
 
-    for i in 0..r {
+    for i in board.iter_mut().take(r) {
         input! {
             cl: String,
         }
 
         let row: Vec<char> = cl.chars().collect();
         for j in row {
-            board[i].push(j);
+            i.push(j);
         }
     }
 
-    for i in 1..r - 1 {
+    for (i, _) in board.iter().enumerate().take(r - 1).skip(1) {
         for j in 1..c {
             if board[i][j] == '.' && board[i][j + 1] == '.' {
                 let idx1 = (i - 1) * (c - 2) + j;
